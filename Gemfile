@@ -1,5 +1,3 @@
-# gem "sinatra"
-gem "goliath"
 
 gem "thin"
 
@@ -9,3 +7,4 @@ gem "faye"
 # gem "faye", require: false # used in faye_ws.rb
 
 gem "sinatra", require: false
+# gem "goliath"
