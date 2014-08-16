@@ -1,0 +1,36 @@
+<!-- guard template -->
+
+<html>
+  <head>
+    <title></title>
+  </head>
+  <body>
+
+  <!-- js -->
+  <!--
+  <script type="text/javascript" src="http://localhost:3000/client.js"></script> -->
+  <script type="text/javascript" src="http://localhost:3001/js/vendor/faye_client.js"></script>
+  <script type="text/javascript">
+    // var client = new Faye.Client('http://localhost:3000')
+    var client = new Faye.Client('http://localhost:3000', {
+      endpoints: {
+          websocket: 'http://localhost:3000/'
+      }
+    });
+
+
+    var subscription = client.subscribe('/foo', function(message) {
+      console.log("subscribed to channel")
+    });
+
+    var publication = client.publish('/foo', {text: 'Hi there'})
+
+    publication.then(function() {
+      console.log('Message received by server!')
+    }, function(error) {
+      console.log('There was a problem: ' + error.message)
+    })
+
+  </script>
+  </body>
+</html>
