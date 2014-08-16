@@ -8,24 +8,45 @@
 
   <!-- js -->
   <!--
-  <script type="text/javascript" src="http://localhost:3000/client.js"></script> -->
+  <script type="text/javascript" src="http://localhost:3000/client.js"></script>
+  -->
   <script type="text/javascript" src="http://localhost:3001/js/vendor/faye_client.js"></script>
+
   <script type="text/javascript">
+
+    //var WebSocket = require('faye-websocket'),
+    // ws        = new WebSocket.Client('ws://localhost:3000/');
+
+    // ws.on('open', function(event) {
+    //   console.log('open');
+    //   ws.send('Hello, world!');
+    // });
+
+    // ws.on('message', function(event) {
+    //   console.log('message', event.data);
+    // });
+
+    // ws.on('close', function(event) {
+    //   console.log('close', event.code, event.reason);
+    //   ws = null;
+    // });
+
     // var client = new Faye.Client('http://localhost:3000')
-    var client = new Faye.Client('http://localhost:3000', {
+    var client = new Faye.Client('http://localhost:3000/faye', {
       endpoints: {
-          websocket: 'http://localhost:3000/'
+          websocket: 'http://localhost:3000/faye'
       }
     });
 
 
     var subscription = client.subscribe('/foo', function(message) {
-      console.log("subscribed to channel")
+
+      console.log("a new user published a message to channel foo: text:"+message.text)
     });
 
     var publication = client.publish('/foo', {text: 'Hi there'})
 
-    publication.then(function() {
+    publication.then(function(callback) {
       console.log('Message received by server!')
     }, function(error) {
       console.log('There was a problem: ' + error.message)

@@ -7,7 +7,7 @@ App = lambda do |env|
     p [:open, es.url, es.last_event_id]
 
     # Periodically send messages
-    loop = EM.add_periodic_timer(1) { es.send('Hello') }
+    loop = EM.add_periodic_timer(1) { es.send("Hello #{rand}") }
 
     es.on :close do |event|
       EM.cancel_timer(loop)
@@ -19,20 +19,20 @@ App = lambda do |env|
 
   else
     # Normal HTTP request
-    [200, {'Content-Type' => 'text/plain'}, ['Hello']]
+    view = <<-BODY
+<script>
+var es = new EventSource("http://localhost:3000")
+es.onmessage = function(e) {
+  var elem = document.createElement("div")
+  elem.innerHTML = "message: " + e.data
+  document.body.appendChild(elem)
+}
+</script>
+BODY
+
+    [200, {'Content-Type' => 'text/html'}, [view]]
   end
 end
 
 run App
 
-
-# in js
-#
-# var es = new EventSource("http://localhost:3000")
-
-# es.onmessage = function(e) {
-#   var elem = document.createElement("div")
-
-#   elem.innerHTML = "message: " + e.data
-#   document.body.appendChild(elem)
-# }

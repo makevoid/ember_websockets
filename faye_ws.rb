@@ -25,6 +25,7 @@ class FayeWs
         ws = nil
       end
     }
+
   end
 end
 
